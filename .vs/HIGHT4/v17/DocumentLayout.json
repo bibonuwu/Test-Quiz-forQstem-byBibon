@@ -1,0 +1,100 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\bib\\Desktop\\HIGHT4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|c:\\users\\bib\\desktop\\hight4\\hight4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|solutionrelative:hight4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|C:\\Users\\bib\\Desktop\\HIGHT4\\hight4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|solutionrelative:hight4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|C:\\Users\\bib\\Desktop\\HIGHT4\\hight4\\windowteacher.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|solutionrelative:hight4\\windowteacher.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|C:\\Users\\bib\\Desktop\\HIGHT4\\hight4\\windowteacher.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|solutionrelative:hight4\\windowteacher.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|C:\\Users\\bib\\Desktop\\HIGHT4\\hight4\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C64223BA-8F20-4B7B-BDB3-B6E0130AA153}|HIGHT4\\HIGHT4.csproj|solutionrelative:hight4\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WindowTeacher.xaml",
+              "DocumentMoniker": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\WindowTeacher.xaml",
+              "RelativeDocumentMoniker": "HIGHT4\\WindowTeacher.xaml",
+              "ToolTip": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\WindowTeacher.xaml",
+              "RelativeToolTip": "HIGHT4\\WindowTeacher.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-24T04:05:16.562Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "HIGHT4\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\MainWindow.xaml",
+              "RelativeToolTip": "HIGHT4\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-23T14:49:02.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "HIGHT4\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\MainWindow.xaml.cs",
+              "RelativeToolTip": "HIGHT4\\MainWindow.xaml.cs",
+              "ViewState": "AgIAANABAAAAAAAAAAAQwOIBAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-23T14:49:01.873Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WindowTeacher.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\WindowTeacher.xaml.cs",
+              "RelativeDocumentMoniker": "HIGHT4\\WindowTeacher.xaml.cs",
+              "ToolTip": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\WindowTeacher.xaml.cs",
+              "RelativeToolTip": "HIGHT4\\WindowTeacher.xaml.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAIwCQAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-24T04:05:32.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\App.xaml",
+              "RelativeDocumentMoniker": "HIGHT4\\App.xaml",
+              "ToolTip": "C:\\Users\\bib\\Desktop\\HIGHT4\\HIGHT4\\App.xaml",
+              "RelativeToolTip": "HIGHT4\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-12-24T04:10:51.841Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
