@@ -1,24 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.IO;
-
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows;
 
 namespace HIGHT4
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowTeacher.xaml
-    /// </summary>
     public partial class WindowTeacher : Window
     {
         public WindowTeacher()
@@ -32,28 +17,43 @@ namespace HIGHT4
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string baseFolder = System.IO.Path.Combine(desktopPath, "Тест сұрақтары QSTEM");
 
-            // Папки для учителей
-            string nuraiFolder = System.IO.Path.Combine(baseFolder, "Нұрай апай");
-            string aybekFolder = System.IO.Path.Combine(baseFolder, "Айбек ағай");
+            // Список предметов
+            var subjects = new[]
+            {
+                "Math", "English", "Informatiks", "Kazakh history", "Kazakh language",
+                "World history", "Physics Lab", "Biology", "Algebra", "Geometry",
+                "Geography", "Chemistry", "Psyholohy"
+            };
 
-            if (!Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
-            if (!Directory.Exists(nuraiFolder)) Directory.CreateDirectory(nuraiFolder);
-            if (!Directory.Exists(aybekFolder)) Directory.CreateDirectory(aybekFolder);
+            // Создание папок для каждого предмета
+            if (!Directory.Exists(baseFolder))
+                Directory.CreateDirectory(baseFolder);
+
+            foreach (var subject in subjects)
+            {
+                string subjectFolder = System.IO.Path.Combine(baseFolder, subject);
+                if (!Directory.Exists(subjectFolder))
+                    Directory.CreateDirectory(subjectFolder);
+            }
         }
 
-        private void NuraiButton_Click(object sender, RoutedEventArgs e)
+        private void OpenMainWindow(string subjectName)
         {
-            var testWindow = new MainWindow("Нұрай апай");
+            string teacherName = "Имя учителя"; // Убедитесь, что значение корректное
+            var testWindow = new MainWindow(teacherName, subjectName); // Передаем выбранный предмет
             testWindow.Show();
             this.Close();
         }
 
-        private void AybekButton_Click(object sender, RoutedEventArgs e)
+
+        private void SubjectButton_Click(object sender, RoutedEventArgs e)
         {
-            var testWindow = new MainWindow("Айбек ағай");
-            testWindow.Show();
-            this.Close();
+            if (sender is FrameworkElement element && element.Tag is string subjectName)
+            {
+                OpenMainWindow(subjectName); // Передаем название предмета
+            }
         }
+
 
     }
 }

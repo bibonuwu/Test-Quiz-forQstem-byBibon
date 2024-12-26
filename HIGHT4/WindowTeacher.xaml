@@ -5,16 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HIGHT4"
         mc:Ignorable="d"
-       Title="Выбор учителя" Height="300" Width="400">
+        WindowStartupLocation="CenterScreen"
+       Title="Выбор учителя" Height="700" Width="400">
     <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Button Content="Нұрай апай" Grid.Row="0" Margin="10"
-                Click="NuraiButton_Click" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button Content="Айбек ағай" Grid.Row="1" Margin="10"
-                Click="AybekButton_Click" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel>
+            <Image Source="/logo.PNG" Width="200" Margin="0,-20,0,0" />
+            <TextBox HorizontalAlignment="Center" FontSize="15" TextWrapping="Wrap" Width="260" HorizontalContentAlignment="Center" BorderBrush="{x:Null}" SelectionBrush="{x:Null}">Құрметті ұстаз тест жасау үшін өз пәніңізді таңдаңыз</TextBox>
+            <Expander Header="Пәндер тізімі" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel>
+
+                    <Button Content="Math" Tag="Math" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="English" Tag="English" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Informatiks" Tag="Informatiks" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Kazakh History" Tag="Kazakh history" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Kazakh Language" Tag="Kazakh language" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="World History" Tag="World history" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Physics Lab" Tag="Physics Lab" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Biology" Tag="Biology" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Algebra" Tag="Algebra" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Geometry" Tag="Geometry" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Geography" Tag="Geography" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Chemistry" Tag="Chemistry" Click="SubjectButton_Click" Margin="5" />
+                    <Button Content="Psyholohy" Tag="Psyholohy" Click="SubjectButton_Click" Margin="5" />
+
+
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+
     </Grid>
 </Window>

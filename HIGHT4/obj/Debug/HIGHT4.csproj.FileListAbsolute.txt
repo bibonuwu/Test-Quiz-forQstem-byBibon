@@ -1,8 +1,6 @@
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4.csproj.AssemblyReference.cache
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\App.g.cs
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4_MarkupCompile.cache
-C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4.csproj.SuggestedBindingRedirects.cache
-C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4.exe.config
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\MainWindow.g.cs
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\HIGHT4.exe.config
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\HIGHT4.exe
@@ -29,3 +27,16 @@ C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4.pdb
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\WindowTeacher.g.cs
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\HIGHT4_MarkupCompile.lref
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\obj\Debug\WindowTeacher.baml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\RestSharp.dll
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\RestSharp.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Buffers.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Memory.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Text.Json.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.ValueTuple.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.IO.Pipelines.dll
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.IO.Pipelines.xml
