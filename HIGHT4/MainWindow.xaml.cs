@@ -633,11 +633,16 @@ namespace HIGHT4
                 var checkBox = new CheckBox
                 {
                     IsChecked = answer.IsCorrect,
-                    Margin = new Thickness(0, 0, 10, 0)
+                    LayoutTransform = new ScaleTransform
+                    {
+                        ScaleX = 2,
+                        ScaleY = 2
+                    },
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 5, 0)
                 };
-
-                stackPanel.Children.Add(textBox);
                 stackPanel.Children.Add(checkBox);
+                stackPanel.Children.Add(textBox);
 
                 AnswersPanel.Children.Add(stackPanel);
             }
@@ -700,9 +705,20 @@ namespace HIGHT4
                 Margin = new Thickness(0, 5, 0, 5)
             };
 
+            var checkBox = new CheckBox
+            {
+                LayoutTransform = new ScaleTransform
+                {
+                    ScaleX = 2,
+                    ScaleY = 2
+                },
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 5, 0)
+            };
+
             var textBox = new TextBox
             {
-                Width = 300,
+                Width = 290,
                 Height = 35,
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 10, 0),
@@ -711,12 +727,7 @@ namespace HIGHT4
                 FontSize = 14
             };
 
-            var checkBox = new CheckBox
-            {
-                Content = "Дұрыс",
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 5, 0)
-            };
+          
 
             var deleteButton = new Button
             {
@@ -741,8 +752,8 @@ namespace HIGHT4
                 }
             };
 
-            stackPanel.Children.Add(textBox);
             stackPanel.Children.Add(checkBox);
+            stackPanel.Children.Add(textBox);
             stackPanel.Children.Add(deleteButton);
 
             AnswersPanel.Children.Add(stackPanel);
@@ -767,36 +778,7 @@ namespace HIGHT4
 
 
         // Загрузка теста из JSON
-        private void LoadFromJsonButton_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "JSON files (*.json)|*.json"
-            };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string json = System.IO.File.ReadAllText(openFileDialog.FileName);
-
-                // Десериализуем вопросы
-                _questions = JsonConvert.DeserializeObject<ObservableCollection<Question>>(json)
-                             ?? new ObservableCollection<Question>();
-
-                QuestionsListBox.ItemsSource = _questions;
-
-                if (_questions.Any())
-                {
-                    _currentQuestionIndex = 0;
-                    LoadQuestionToEditor(_questions[_currentQuestionIndex]);
-                }
-                else
-                {
-                    _currentQuestionIndex = -1;
-                    ClearEditor();
-                }
-            }
-        }
-
+      
     }
 
     public class Question : INotifyPropertyChanged

@@ -31,6 +31,7 @@ namespace TestApp
                 {
                     Content = answer.Text,
                     Tag = answer.IsCorrect,
+                    
                     FontSize = 16
                 };
                 AnswersPanel.Children.Add(checkBox);
