@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace TestApp
 {
@@ -25,30 +26,77 @@ namespace TestApp
             QuestionTextBlock.Text = question.Text;
             AnswersPanel.Children.Clear();
 
-            foreach (var answer in question.Answers)
+            int correctAnswerCount = question.Answers.Count(a => a.IsCorrect);
+
+            if (correctAnswerCount == 1)
             {
-                var checkBox = new CheckBox
+                var groupName = $"Question{_currentQuestionIndex}";
+
+                foreach (var answer in question.Answers)
                 {
-                    Content = answer.Text,
-                    Tag = answer.IsCorrect,
-                    
-                    FontSize = 16
-                };
-                AnswersPanel.Children.Add(checkBox);
+                    var radioButton = new RadioButton
+                    {
+                        Content = answer.Text,
+                        Tag = answer.IsCorrect,
+                        GroupName = groupName,
+                        FontSize = 16,
+                        Background = Brushes.Transparent,
+                        Style = (Style)FindResource("CustomRadioButtonStyle")
+                    };
+
+                    AnswersPanel.Children.Add(radioButton);
+                }
+            }
+            else
+            {
+                foreach (var answer in question.Answers)
+                {
+                    var checkBox = new CheckBox
+                    {
+                        Content = answer.Text,
+                        Tag = answer.IsCorrect,
+                        FontSize = 16,
+                        Background = Brushes.Transparent,
+                        Style = (Style)FindResource("CustomCheckBoxStyle")
+                    };
+
+                    AnswersPanel.Children.Add(checkBox);
+                }
             }
         }
 
+
+
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedAnswers = AnswersPanel.Children
-                .OfType<CheckBox>()
-                .Where(cb => cb.IsChecked == true)
-                .ToList();
+            List<bool> selectedCorrectAnswers = new List<bool>();
+
+            if (_questions[_currentQuestionIndex].Answers.Count(a => a.IsCorrect) == 1)
+            {
+                // Обработка для RadioButton
+                var selectedRadioButton = AnswersPanel.Children
+                    .OfType<RadioButton>()
+                    .FirstOrDefault(rb => rb.IsChecked == true);
+
+                if (selectedRadioButton != null)
+                {
+                    selectedCorrectAnswers.Add((bool)selectedRadioButton.Tag);
+                }
+            }
+            else
+            {
+                // Обработка для CheckBox
+                var selectedCheckBoxes = AnswersPanel.Children
+                    .OfType<CheckBox>()
+                    .Where(cb => cb.IsChecked == true);
+
+                selectedCorrectAnswers.AddRange(selectedCheckBoxes.Select(cb => (bool)cb.Tag));
+            }
 
             var correctAnswers = _questions[_currentQuestionIndex].Answers.Where(a => a.IsCorrect).ToList();
 
             // Подсчет баллов
-            int questionScore = CalculateScore(selectedAnswers, correctAnswers);
+            int questionScore = CalculateScore(selectedCorrectAnswers, correctAnswers);
             _score += questionScore;
 
             _currentQuestionIndex++;
@@ -64,10 +112,10 @@ namespace TestApp
             }
         }
 
-        private int CalculateScore(List<CheckBox> selectedAnswers, List<Answer> correctAnswers)
+        private int CalculateScore(List<bool> selectedCorrectAnswers, List<Answer> correctAnswers)
         {
-            int correctCount = selectedAnswers.Count(cb => (bool)cb.Tag);
-            int incorrectCount = selectedAnswers.Count(cb => !(bool)cb.Tag);
+            int correctCount = selectedCorrectAnswers.Count(isCorrect => isCorrect);
+            int incorrectCount = selectedCorrectAnswers.Count(isCorrect => !isCorrect);
 
             if (correctAnswers.Count == 1)
             {

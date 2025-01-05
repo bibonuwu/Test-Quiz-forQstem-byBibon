@@ -74,7 +74,7 @@
                         Style="{StaticResource CustomButtonStyle}" />
             </Border>
             <StackPanel  Width="230">
-                <Label Foreground="#0D062D" FontSize="11">Тесттің атауы</Label>
+                <Label Foreground="#0D062D">Тесттің атауы</Label>
                 <TextBox x:Name="TestNameTextBox" ToolTip="Тесттің атауы" BorderBrush="#FFACACAC" Height="45" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" BorderThickness="2,2,2,2"/>
             </StackPanel>
             
@@ -83,12 +83,14 @@
               Click="CreateNewQuestionButton_Click"
               Style="{StaticResource CustomButtonStyle}" />
             </Border>
-            
-            <ListBox x:Name="QuestionsListBox" 
-          DisplayMemberPath="Text"
-          SelectionChanged="QuestionsListBox_SelectionChanged" Margin="0,10,0,0" Width="230"/>
 
-           
+            <ListBox x:Name="QuestionsListBox"
+         DisplayMemberPath="Text"
+         SelectionChanged="QuestionsListBox_SelectionChanged"
+         Width="230"
+         MaxHeight="220"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,10,0,0" />
+
 
 
         </StackPanel>
@@ -101,7 +103,7 @@
         <StackPanel Grid.Column="1">
             
             <StackPanel>
-                <Label FontSize="11" Foreground="#FF0D062D" Width="380">Сұрақ жазатын жер</Label>
+                <Label Foreground="#FF0D062D" Width="380">Сұрақ жазатын жер</Label>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBox x:Name="QuestionTextBox" TextChanged="QuestionTextBox_TextChanged" BorderBrush="#FFACACAC" Height="45" FontSize="15"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" BorderThickness="2,2,2,2" TextWrapping="Wrap" Width="340"/>
 
@@ -116,7 +118,7 @@ Click="DeleteQuestionButton_Click" BorderBrush="{x:Null}" >
 
                 </StackPanel>
             </StackPanel>
-            <Label Margin="0,10,0,10" Foreground="#FF0D062D" Width="380">Жауап дұрыстығына есептік балл:</Label>
+            <Label Margin="0,10,0,10" Foreground="#FF0D062D" Width="380">Жауап дұрыстығына есептік балл ҰБТ форматында қойылады</Label>
                
 
 
@@ -137,6 +139,8 @@ Style="{StaticResource CustomButtonStyle}" />
                 <!-- Ответы добавляются динамически -->
             </StackPanel>
 
+            
+            
             <Border Style="{StaticResource ButtonBorderStyle}" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="30" Height="30">
                 <Button
 Click="AddAnswerButton_Click" BorderBrush="{x:Null}" >
@@ -171,12 +175,17 @@ Click="BackButton_Click" BorderBrush="{x:Null}" >
                     </Button>
                 </Border>
             </StackPanel>
-          
 
 
-            <TextBlock Text="Сохранённые тесты:" FontWeight="Bold" FontSize="16" Width="230"/>
-            <ListBox x:Name="SavedTestsListBox" Margin="0,10,0,10" SelectionChanged="SavedTestsListBox_SelectionChanged" Width="230"/>
-           
+
+            <Label Foreground="#0D062D" Width="230" Margin="0,20,0,0">Тесттеріңіз</Label>
+
+            <ListBox x:Name="SavedTestsListBox"
+         SelectionChanged="SavedTestsListBox_SelectionChanged"
+         Width="230"
+         MaxHeight="400"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            
             <Border Style="{StaticResource ButtonBorderStyle}" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="30" Height="30">
                 <Button
 Click="RefreshSavedTestsButton_Click" BorderBrush="{x:Null}" >

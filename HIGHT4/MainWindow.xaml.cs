@@ -270,7 +270,7 @@ namespace HIGHT4
         }
 
 
-    
+
 
 
 
@@ -500,15 +500,15 @@ namespace HIGHT4
 
             var newQuestion = new Question
             {
-              
+
                 Text = "Сұрақ жазу",
-                
-              
+
+
                 Points = 1,
                 Answers = new ObservableCollection<Answer> { new Answer { Text = "Жауабы", IsCorrect = false } }
             };
 
-        
+
 
             _questions.Add(newQuestion);
             QuestionsListBox.ItemsSource = null;
@@ -727,7 +727,7 @@ namespace HIGHT4
                 FontSize = 14
             };
 
-          
+
 
             var deleteButton = new Button
             {
@@ -778,7 +778,7 @@ namespace HIGHT4
 
 
         // Загрузка теста из JSON
-      
+
     }
 
     public class Question : INotifyPropertyChanged
