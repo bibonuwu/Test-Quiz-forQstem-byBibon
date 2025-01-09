@@ -60,13 +60,36 @@ namespace TestApp
                         Style = (Style)FindResource("CustomCheckBoxStyle")
                     };
 
+                    // Подписываемся на события Checked и Unchecked
+                    checkBox.Checked += CheckBox_Checked;
+                    checkBox.Unchecked += CheckBox_Unchecked;
+
                     AnswersPanel.Children.Add(checkBox);
                 }
             }
         }
 
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var selectedCount = AnswersPanel.Children
+                .OfType<CheckBox>()
+                .Count(cb => cb.IsChecked == true);
 
-
+            if (selectedCount > 3)
+            {
+                // Если выбрано больше трех ответов, отменяем выбор текущего CheckBox
+                var checkBox = sender as CheckBox;
+                if (checkBox != null)
+                {
+                    checkBox.IsChecked = false;
+                    MessageBox.Show("Вы можете выбрать только три ответа.", "Ограничение выбора", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Здесь можно добавить дополнительную логику, если необходимо
+        }
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             List<bool> selectedCorrectAnswers = new List<bool>();
@@ -85,10 +108,18 @@ namespace TestApp
             }
             else
             {
-                // Обработка для CheckBox
+                // Обработка для CheckBox с ограничением в 3 ответа
                 var selectedCheckBoxes = AnswersPanel.Children
                     .OfType<CheckBox>()
-                    .Where(cb => cb.IsChecked == true);
+                    .Where(cb => cb.IsChecked == true)
+                    .Take(3) // Берем только первые три выбранных
+                    .ToList();
+
+                if (selectedCheckBoxes.Count > 3)
+                {
+                    MessageBox.Show("Вы можете выбрать только три ответа.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
                 selectedCorrectAnswers.AddRange(selectedCheckBoxes.Select(cb => (bool)cb.Tag));
             }
@@ -107,7 +138,8 @@ namespace TestApp
             }
             else
             {
-                MessageBox.Show($"Тест завершён! Ваш результат: {_score} из {_questions.Count * 2}", "Результат", MessageBoxButton.OK, MessageBoxImage.Information);
+                int maxScore = _questions.Sum(q => q.Answers.Count(a => a.IsCorrect));
+                MessageBox.Show($"Тест завершён! Ваш результат: {_score} из {maxScore}", "Результат", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }
         }
@@ -115,23 +147,46 @@ namespace TestApp
         private int CalculateScore(List<bool> selectedCorrectAnswers, List<Answer> correctAnswers)
         {
             int correctCount = selectedCorrectAnswers.Count(isCorrect => isCorrect);
-            int incorrectCount = selectedCorrectAnswers.Count(isCorrect => !isCorrect);
+            int incorrectCount = selectedCorrectAnswers.Count - correctCount;
 
-            if (correctAnswers.Count == 1)
+            // Условие 1: Все три ответа правильные
+            if (correctCount == 3 && incorrectCount == 0)
             {
-                if (correctCount == 1 && incorrectCount == 0) return 2; // Один правильный ответ
-                if (correctCount == 1 && incorrectCount > 0) return 1; // Один правильный и один неправильный
-                return 0; // Иначе
-            }
-            else if (correctAnswers.Count > 1)
-            {
-                if (correctCount == correctAnswers.Count && incorrectCount == 0) return 2; // Все правильные без ошибок
-                if (correctCount > 0 && incorrectCount == 0) return 1; // Часть правильных без ошибок
-                return 0; // Иначе
+                return 2; // x+x+x=2
             }
 
+            // Условие 2: Два правильных ответа и один неправильный
+            if (correctCount == 2 && incorrectCount == 1)
+            {
+                return 1; // x+x+y=1
+            }
+
+            // Условие 3: Один правильный ответ и два неправильных
+            if (correctCount == 1 && incorrectCount == 2)
+            {
+                return 0; // x+y+y=0
+            }
+
+            // Условие 4: Все три ответа неправильные
+            if (correctCount == 0 && incorrectCount == 3)
+            {
+                return 0; // y+y+y=0
+            }
+
+            // Если выбрано меньше или больше трех ответов, начисление баллов не производится
             return 0;
         }
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public class TestQuestion

@@ -5,30 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Windows;
-using System.Windows.Controls;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using Newtonsoft.Json;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
+using Microsoft.Win32;
+using Firebase.Storage;
 using System.Net.Http;
+using System.Windows.Input;
 
 namespace HIGHT4
 {
@@ -44,7 +30,10 @@ namespace HIGHT4
         private const string FirebaseBaseUrl = "https://test-qstem-default-rtdb.firebaseio.com/";
         private bool _isManualInput = false; // Флаг для определения ручного ввода
         private string _currentSubject = "Name subject";
+        private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
+        private int _currentQuestionIndex = -1;
 
+        private const string FirebaseBucket = "test-qstem.firebasestorage.app"; // Ваш bucket из Firebase
 
         public MainWindow(string teacherName, string selectedSubject)
         {
@@ -105,8 +94,49 @@ namespace HIGHT4
         }
 
 
+        private async Task<string> UploadFileToFirebase(string filePath, string fileName)
+        {
+            var stream = File.Open(filePath, FileMode.Open);
 
+            // Загрузка файла в папку images в Firebase Storage
+            var task = new FirebaseStorage(
+                FirebaseBucket,
+                new FirebaseStorageOptions
+                {
+                    ThrowOnCancel = true
+                })
+                .Child("images") // Указываем папку images
+                .Child(fileName) // Имя файла
+                .PutAsync(stream);
 
+            // Ожидание завершения загрузки и получение URL
+            string downloadUrl = await task;
+            return downloadUrl;
+        }
+        private async void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                string fileName = System.IO.Path.GetFileName(filePath);
+
+                try
+                {
+                    // Загружаем файл и получаем URL
+                    string firebaseUrl = await UploadFileToFirebase(filePath, fileName);
+                    MessageBox.Show("File uploaded successfully!\nURL: " + firebaseUrl);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
 
 
         private async void SaveCurrentTest()
@@ -150,7 +180,14 @@ namespace HIGHT4
 
 
 
-
+        private void AnswerTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+            {
+                e.Handled = true; // Предотвращаем стандартное поведение TAB
+                AddAnswerButton_Click(sender, e); // Вызываем метод добавления ответа
+            }
+        }
 
 
         private void AfterSaveUpdate()
@@ -173,6 +210,33 @@ namespace HIGHT4
         {
             if (SavedTestsListBox.SelectedItem is string selectedTest)
             {
+                // Проверка на наличие изменений в текущем тесте
+                if (_isTestModified)
+                {
+                    var result = MessageBox.Show(
+                        "Вы внесли изменения в текущем тесте. Сохранить изменения перед переходом?",
+                        "Несохраненные изменения",
+                        MessageBoxButton.YesNoCancel,
+                        MessageBoxImage.Warning);
+
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            SaveCurrentTest(); // Сохраняем текущий тест
+                            break;
+                        case MessageBoxResult.No:
+                            // Продолжаем переход без сохранения
+                            break;
+                        case MessageBoxResult.Cancel:
+                            // Отменяем выбор нового теста
+                            SavedTestsListBox.SelectedItem = null;
+                            return;
+                    }
+                }
+
+                // Устанавливаем выбранное имя теста в текстовое поле TestNameTextBox
+                TestNameTextBox.Text = selectedTest;
+
                 try
                 {
                     // Формируем URL для выбранного теста
@@ -220,6 +284,9 @@ namespace HIGHT4
                 {
                     MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+
+                // Сбрасываем флаг изменений после загрузки нового теста
+                _isTestModified = false;
             }
         }
 
@@ -234,16 +301,7 @@ namespace HIGHT4
 
 
 
-        private ObservableCollection<Question> _questions = new ObservableCollection<Question>();
-        private int _currentQuestionIndex = -1;
-        public MainWindow()
-        {
-            InitializeComponent();
-            QuestionsListBox.ItemsSource = _questions; // Привязка данных для списка вопросов
 
-            SubjectLabel.Content = _currentSubject; // Устанавливаем текст при загрузке окна
-
-        }
 
 
 
@@ -500,15 +558,10 @@ namespace HIGHT4
 
             var newQuestion = new Question
             {
-
-                Text = "Сұрақ жазу",
-
-
+                Text = string.Empty, // Оставляем текст пустым, чтобы показывался текст-заполнитель
                 Points = 1,
-                Answers = new ObservableCollection<Answer> { new Answer { Text = "Жауабы", IsCorrect = false } }
+                Answers = new ObservableCollection<Answer> { new Answer { Text = "*", IsCorrect = false } }
             };
-
-
 
             _questions.Add(newQuestion);
             QuestionsListBox.ItemsSource = null;
@@ -516,7 +569,12 @@ namespace HIGHT4
             QuestionsListBox.SelectedIndex = _questions.Count - 1;
 
             _isTestModified = true; // Устанавливаем флаг изменения
+
+            // Очищаем QuestionTextBox и показываем текст-заполнитель
+            QuestionTextBox.Text = string.Empty;
+            PlaceholderTextBlock.Visibility = Visibility.Visible;
         }
+
 
 
 
@@ -531,20 +589,19 @@ namespace HIGHT4
 
                 if (_questions.Count > 0)
                 {
-                    // Устанавливаем новый текущий индекс
                     _currentQuestionIndex = Math.Min(_currentQuestionIndex, _questions.Count - 1);
-                    LoadQuestionToEditor(_questions[_currentQuestionIndex]); // Загружаем новый вопрос
+                    LoadQuestionToEditor(_questions[_currentQuestionIndex]);
                 }
                 else
                 {
-                    // Если вопросов больше нет, очищаем интерфейс
                     _currentQuestionIndex = -1;
                     ClearEditor();
                 }
 
                 QuestionsListBox.ItemsSource = null;
                 QuestionsListBox.ItemsSource = _questions;
-                _isTestModified = true; // Отмечаем изменения
+
+                _isTestModified = true; // Устанавливаем флаг изменения
             }
             else
             {
@@ -564,7 +621,6 @@ namespace HIGHT4
 
 
 
-        // Загрузка вопроса в редактор при выборе
         private void QuestionsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_currentQuestionIndex >= 0 && _currentQuestionIndex < _questions.Count)
@@ -578,9 +634,16 @@ namespace HIGHT4
             {
                 LoadQuestionToEditor(_questions[_currentQuestionIndex]); // Загружаем выбранный вопрос
             }
+            else if (_questions.Count > 0) // Если вопросы есть, но индекс некорректный, выбираем первый вопрос
+            {
+                _currentQuestionIndex = 0;
+                LoadQuestionToEditor(_questions[_currentQuestionIndex]);
+                QuestionsListBox.SelectedIndex = 0; // Обновляем выбранный элемент списка
+            }
             else
             {
-                ClearEditor();
+                ClearEditor(); // Если вопросов нет, очищаем редактор
+                _currentQuestionIndex = -1;
             }
         }
 
@@ -597,15 +660,6 @@ namespace HIGHT4
             // Загружаем текст вопроса
             QuestionTextBox.Text = question.Text;
 
-            // Устанавливаем выбранный RadioButton на основе баллов
-            foreach (var radioButton in FindLogicalChildren<RadioButton>(this))
-            {
-                if (radioButton.GroupName == "Scores" && int.TryParse(radioButton.Tag.ToString(), out int points))
-                {
-                    radioButton.IsChecked = (points == question.Points);
-                }
-            }
-
             // Очищаем панель ответов
             AnswersPanel.Children.Clear();
 
@@ -616,18 +670,6 @@ namespace HIGHT4
                 {
                     Orientation = Orientation.Horizontal,
                     Margin = new Thickness(0, 5, 0, 5)
-                };
-
-                var textBox = new TextBox
-                {
-                    Width = 300,
-                    Height = 35,
-                    TextWrapping = TextWrapping.Wrap,
-                    Margin = new Thickness(0, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    FontSize = 14,
-
-                    Text = answer.Text
                 };
 
                 var checkBox = new CheckBox
@@ -641,6 +683,22 @@ namespace HIGHT4
                     VerticalAlignment = VerticalAlignment.Center,
                     Margin = new Thickness(0, 0, 5, 0)
                 };
+
+                // Добавляем обработчики для изменения состояния CheckBox
+                checkBox.Checked += (s, e) => { _isTestModified = true; };
+                checkBox.Unchecked += (s, e) => { _isTestModified = true; };
+
+                var textBox = new TextBox
+                {
+                    Width = 300,
+                    Height = 35,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(0, 0, 10, 0),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 14,
+                    Text = answer.Text
+                };
+
                 stackPanel.Children.Add(checkBox);
                 stackPanel.Children.Add(textBox);
 
@@ -685,6 +743,11 @@ namespace HIGHT4
         // Обработка изменения текста вопроса
         private void QuestionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Если текст пустой, показываем текст-заполнитель
+            PlaceholderTextBlock.Visibility = string.IsNullOrWhiteSpace(QuestionTextBox.Text)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
             if (_currentQuestionIndex >= 0 && _currentQuestionIndex < _questions.Count)
             {
                 _questions[_currentQuestionIndex].Text = QuestionTextBox.Text;
@@ -722,12 +785,10 @@ namespace HIGHT4
                 Height = 35,
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 10, 0),
-                Text = "Жауабы",
+                Text = "*",
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14
             };
-
-
 
             var deleteButton = new Button
             {
@@ -749,6 +810,7 @@ namespace HIGHT4
                 if (AnswersPanel.Children.Contains(stackPanel))
                 {
                     AnswersPanel.Children.Remove(stackPanel);
+                    _isTestModified = true; // Устанавливаем флаг изменения при удалении ответа
                 }
             };
 
@@ -757,13 +819,8 @@ namespace HIGHT4
             stackPanel.Children.Add(deleteButton);
 
             AnswersPanel.Children.Add(stackPanel);
-        }
 
-        public MainWindow(string selectedSubject)
-        {
-            InitializeComponent();
-            _currentSubject = selectedSubject;
-            SubjectLabel.Content = _currentSubject;
+            _isTestModified = true; // Устанавливаем флаг изменения при добавлении ответа
         }
 
 
@@ -778,35 +835,35 @@ namespace HIGHT4
 
 
         // Загрузка теста из JSON
-
-    }
-
-    public class Question : INotifyPropertyChanged
-    {
-        private string _text;
-        public string Text
+        public class Question : INotifyPropertyChanged
         {
-            get => _text;
-            set
+            private string _text;
+            public string Text
             {
-                _text = value;
-                OnPropertyChanged(nameof(Text));
+                get => _text;
+                set
+                {
+                    _text = value;
+                    OnPropertyChanged(nameof(Text));
+                }
+            }
+
+            public int Points { get; set; }
+            public ObservableCollection<Answer> Answers { get; set; } = new ObservableCollection<Answer>();
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        public int Points { get; set; }
-        public ObservableCollection<Answer> Answers { get; set; } = new ObservableCollection<Answer>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        public class Answer
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            public string Text { get; set; }
+            public bool IsCorrect { get; set; }
         }
     }
 
-    public class Answer
-    {
-        public string Text { get; set; }
-        public bool IsCorrect { get; set; }
-    }
+    
 }

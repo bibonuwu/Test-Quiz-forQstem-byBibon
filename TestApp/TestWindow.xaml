@@ -14,12 +14,17 @@
                     <ControlTemplate TargetType="RadioButton">
                         <Border x:Name="Border" Background="#FF204072" CornerRadius="8" Margin="5" Padding="10">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{TemplateBinding Content}" FontSize="16" VerticalAlignment="Center" Foreground="White" />
+                                <TextBlock Text="{TemplateBinding Content}" 
+                                   FontSize="16" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="White"
+                                   TextWrapping="Wrap" 
+                                   Width="700"/>
                             </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#FF2F855A" />
+                                <Setter TargetName="Border" Property="Background" Value="#FFBDBDBD" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter TargetName="Border" Property="Background" Value="#FF204072" />
@@ -38,12 +43,17 @@
                     <ControlTemplate TargetType="CheckBox">
                         <Border x:Name="Border" Background="#FF204072" CornerRadius="8" Margin="5" Padding="10">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{TemplateBinding Content}" FontSize="16" VerticalAlignment="Center" Foreground="White" />
+                                <TextBlock Text="{TemplateBinding Content}" 
+                                   FontSize="16" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="White" 
+                                   TextWrapping="Wrap" 
+                                   Width="700"/>
                             </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#FF2F855A" />
+                                <Setter TargetName="Border" Property="Background" Value="#FFBDBDBD" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter TargetName="Border" Property="Background" Value="#FF204072" />
@@ -57,7 +67,12 @@
     </Window.Resources>
 
     <Grid Margin="20">
-        <TextBlock x:Name="QuestionTextBlock" Text="Сұрақ" FontSize="20" VerticalAlignment="Top" />
+        <TextBlock x:Name="QuestionTextBlock" 
+           Text="Сұрақ" 
+           FontSize="20" 
+           VerticalAlignment="Top" 
+           TextWrapping="Wrap" 
+           Width="760"/>
         <StackPanel x:Name="AnswersPanel" Margin="0,60,0,100" VerticalAlignment="Top" />
 
         <Border Background="#FF204072" CornerRadius="8" Width="230" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20">

@@ -40,3 +40,6 @@ C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Threading.Tasks.Extensions.x
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.ValueTuple.xml
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.IO.Pipelines.dll
 C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.IO.Pipelines.xml
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\Firebase.Storage.dll
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\bib\Desktop\HIGHT4\HIGHT4\bin\Debug\System.Diagnostics.DiagnosticSource.xml
